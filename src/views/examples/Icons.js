@@ -17,6 +17,7 @@
 */
 // reactstrap components
 import {
+  Button,
   Badge,
   Card,
   CardHeader,
@@ -59,6 +60,19 @@ const Tables = () => {
           <Container className="mt--7" fluid>
               {/* Table */}
               <Row>
+              <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+              <div className="d-flex justify-content-end">
+                <Button
+                  className="mr-4"
+                  color="info"
+                  href="/admin/ajouterProf"
+                  size="sm"
+                >
+                  Ajouter un professeur
+                </Button>
+              </div>
+
+              </CardHeader>
                   <div className="col">
                       <Card className="shadow">
                           <CardHeader className="border-0">
