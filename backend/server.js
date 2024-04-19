@@ -1,6 +1,7 @@
 const express = require('express');
 const mysql = require('mysql');
 const cors = require('cors');
+const { db, authenticateUser } = require('./db');
 
 
 const app = express()
@@ -10,22 +11,22 @@ app.get('/' , (re , res)=>{
     return res.json("from backend side")
 })
 
-app.listen(3001, ()=>{
-    console.log(`server is running on port 3001`)
+app.post('/login', (req, res) => {
+  const { email, password } = req.body;
+  authenticateUser(email, password, (error, results) => {
+      if (error) {
+          res.status(500).json({ error: 'An error occurred while authenticating user' });
+      } else {
+          if (results.length > 0) {
+              res.status(200).json({ message: 'Login successful', user: results[0] });
+          } else {
+              res.status(401).json({ error: 'Invalid email or password' });
+          }
+      }
+  });
 });
-   
-//Database connection
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'P@$$w0rd',
-    database: 'edu'
-  });
-  
-  db.connect((err) => {
-    if (err) {
-      throw err;
-    }
-    console.log('Connected to database');
-  });
-  
+
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

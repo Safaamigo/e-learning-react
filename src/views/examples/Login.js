@@ -1,8 +1,27 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import { Button, Card, CardHeader, CardBody, FormGroup, Form, Input, InputGroupAddon, InputGroupText, InputGroup, Row, Col } from "reactstrap";
 import { Link } from "react-router-dom";
+import axios from 'axios';
+
 
 const Login = () => {
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:3001/login', { email, password });
+      console.log('Login successful:', response.data);
+    } catch (error) {
+      console.error('Login failed:', error.response.data);
+      setError('Invalid email or password');
+    }
+  };
+
   return (
     <>
       <Col lg="5" md="7">
